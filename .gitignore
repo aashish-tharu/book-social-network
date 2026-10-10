@@ -1,0 +1,42 @@
+# =========================
+# IDEs & Editors
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.class
+
+# Eclipse / VS Code (optional, good practice for open-source)
+.classpath
+.project
+.settings/
+.vscode/
+
+# =========================
+# Maven & Backend Build
+# =========================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# =========================
+# Frontend (Angular/Node)
+# =========================
+node_modules/
+dist/
+.angular/
+npm-debug.log
+
+# =========================
+# Logs & OS Files
+# =========================
+*.log
+.DS_Store
+Thumbs.db
