@@ -1,4 +1,4 @@
-package com.example.book.User;
+package com.example.book.user;
 
 import com.example.book.role.Role;
 import jakarta.persistence.*;

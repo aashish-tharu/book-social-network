@@ -1,6 +1,6 @@
 package com.example.book.security;
 
-import com.example.book.User.UserRepository;
+import com.example.book.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

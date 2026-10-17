@@ -1,6 +1,6 @@
 package com.example.book.role;
 
-import com.example.book.User.User;
+import com.example.book.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

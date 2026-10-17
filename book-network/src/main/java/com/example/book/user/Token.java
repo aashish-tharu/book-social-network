@@ -1,4 +1,4 @@
-package com.example.book.User;
+package com.example.book.user;
 
 import jakarta.persistence.*;
 import lombok.*;
