@@ -40,6 +40,11 @@ public class User implements UserDetails, Principal {
     private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "_user_roles",
+            joinColumns = @JoinColumn(name = "users_id"),        // <-- Notice the 's'
+            inverseJoinColumns = @JoinColumn(name = "roles_id")  // <-- Notice the 's'
+    )
     private List<Role> roles;
 
     @CreatedDate
@@ -92,7 +97,7 @@ public class User implements UserDetails, Principal {
         return email;
     }
 
-    private String fullName() {
+    public String fullName() {
         return firstname + " " + lastname;
     }
 }
