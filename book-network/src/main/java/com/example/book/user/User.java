@@ -1,5 +1,6 @@
 package com.example.book.user;
 
+import com.example.book.book.Book;
 import com.example.book.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,10 +43,13 @@ public class User implements UserDetails, Principal {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "_user_roles",
-            joinColumns = @JoinColumn(name = "users_id"),        // <-- Notice the 's'
-            inverseJoinColumns = @JoinColumn(name = "roles_id")  // <-- Notice the 's'
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id")
     )
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
