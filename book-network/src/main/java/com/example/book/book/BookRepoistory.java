@@ -2,11 +2,12 @@ package com.example.book.book;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.awt.print.Pageable;
 
-public interface BookRepoistory extends JpaRepository<Book, Integer> {
+public interface BookRepoistory extends JpaRepository<Book, Integer>, JpaSpecificationExecutor<Book> {
 
     @Query("""
    SELECT book

@@ -50,4 +50,22 @@ public class BookService {
                 books.isLast()
         );
     }
+
+    public Object findAllBooksByOwner(int page, int size, Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        Pageable pageable = (Pageable) PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<Book> books = bookRepoistory.findAll(BookSpecification.withOwnerId(user.getId()), (org.springframework.data.domain.Pageable) pageable);
+        List<BookResponse> bookResponse = books.stream()
+                .map(bookMapper::toBookResponse)
+                .toList();
+        return new PageResponse<>(
+                bookResponse,
+                books.getNumber(),
+                books.getSize(),
+                books.getTotalElements(),
+                books.getTotalPages(),
+                books.isFirst(),
+                books.isLast()
+        );
+    }
 }
