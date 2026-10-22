@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.awt.print.Pageable;
 import java.util.List;
 
+import static com.example.book.book.BookSpecification.withOwnerId;
+
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -37,13 +39,13 @@ public class BookService {
         User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = (Pageable) PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<Book> books = bookRepoistory.findAllDisplayableBooks(pageable, user.getId());
-        List<BookResponse> bookResponse = books.stream()
+        List<BookResponse> booksResponse = books.stream()
                 .map(bookMapper::toBookResponse)
                 .toList();
         return new PageResponse<>(
-            bookResponse,
-            books.getNumber(),
-            books.getSize(),
+                booksResponse,
+                books.getNumber(),
+                books.getSize(),
                 books.getTotalElements(),
                 books.getTotalPages(),
                 books.isFirst(),
@@ -54,12 +56,14 @@ public class BookService {
     public Object findAllBooksByOwner(int page, int size, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = (Pageable) PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Book> books = bookRepoistory.findAll(BookSpecification.withOwnerId(user.getId()), (org.springframework.data.domain.Pageable) pageable);
-        List<BookResponse> bookResponse = books.stream()
+        Page<Book> books = bookRepoistory.findAll(
+                BookSpecification.withOwnerId(user.getId()),
+                (org.springframework.data.domain.Pageable) pageable);
+        List<BookResponse> booksResponse = books.stream()
                 .map(bookMapper::toBookResponse)
                 .toList();
         return new PageResponse<>(
-                bookResponse,
+                booksResponse,
                 books.getNumber(),
                 books.getSize(),
                 books.getTotalElements(),

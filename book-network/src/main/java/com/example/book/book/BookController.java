@@ -4,6 +4,7 @@ import com.example.book.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -47,6 +48,6 @@ public class BookController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             Authentication connectedUser
     ) {
-        return RequestEntity.ok(service.findAllBooksByOwner(page, size, connectedUser));
+        return ResponseEntity.ok((PageResponse<BookResponse>) service.findAllBooksByOwner(page, size, connectedUser));
     }
 }
