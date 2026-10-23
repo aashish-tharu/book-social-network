@@ -137,4 +137,24 @@ public class BookService {
         bookRepoistory.save(book);
         return bookId;
     }
+
+    public Integer borrowBook(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepoistory.findById(bookId)
+                .orElseThrow(()->new EntityNotFoundException("No book found with the book id: " + bookId));
+        User user = ((User) connectedUser.getPrincipal());
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot borrow your own book");
+        }
+        final boolean isAlreadBorrowed = bookTransactionRepository.isAlreadBorrowedByUser(bookId, user.getId());
+        if (isAlreadBorrowed) {
+            throw new OperationNotPermittedException("The requested boook is alread borrowed");
+        }
+        BookTransaction bookTransaction = BookTransaction.builder()
+                .user(user)
+                .book(book)
+                .returnApproved(false)
+                .returned(false)
+                .build();
+        return bookTransactionRepository.save(bookTransaction).getId();
+    }
 }
