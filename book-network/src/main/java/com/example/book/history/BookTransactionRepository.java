@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Optional;
 
 public interface BookTransactionRepository extends JpaRepository<BookTransaction, Integer> {
 
@@ -33,4 +34,14 @@ public interface BookTransactionRepository extends JpaRepository<BookTransaction
     and bookTransaction.returnApproved = false
     """)
     boolean isAlreadBorrowedByUser(Integer bookId, Integer id);
+
+    @Query("""
+    select transaction
+    from BookTransaction  transaction
+    where transaction.user.id = :userId
+    and transaction.book.id = :bookId
+    and transaction.returned = false
+    and transaction.returnApproved = false
+""")
+   Optional<BookTransaction> findByBookIdAndUserId(Integer bookId, Integer id);
 }
