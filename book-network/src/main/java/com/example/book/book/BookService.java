@@ -1,6 +1,7 @@
 package com.example.book.book;
 
 import com.example.book.common.PageResponse;
+import com.example.book.exception.OperationNotPermittedException;
 import com.example.book.history.BookTransaction;
 import com.example.book.history.BookTransactionRepository;
 import com.example.book.user.User;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.book.book.BookSpecification.withOwnerId;
 
@@ -110,5 +112,17 @@ public class BookService {
                 allBorrowedBooks.isFirst(),
                 allBorrowedBooks.isLast()
         );
+    }
+
+    public Integer updateShareableStatus(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepoistory.findById(bookId)
+                .orElseThrow(()->new EntityNotFoundException("No book found with the id: " + bookId));
+        User user = ((User) connectedUser.getPrincipal());
+        if (!Objects.equals(book.getOwner().getBooks(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot update books shareable status");
+        }
+        book.setShareable((!book.isShareable()));
+        bookRepoistory.save(book);
+        return bookId;
     }
 }
