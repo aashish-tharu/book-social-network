@@ -1,6 +1,8 @@
 package com.example.book.book;
 
 import com.example.book.common.PageResponse;
+import com.example.book.history.BookTransaction;
+import com.example.book.history.BookTransactionRepository;
 import com.example.book.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class BookService {
 
     private final BookRepoistory bookRepoistory;
     private final BookMapper bookMapper;
+    private final BookTransactionRepository bookTransactionRepository;
 
     public Integer save(BookRequest request, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
@@ -70,6 +73,24 @@ public class BookService {
                 books.getTotalPages(),
                 books.isFirst(),
                 books.isLast()
+        );
+    }
+
+    public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size, Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        Pageable pageable = (Pageable) PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<BookTransaction> allBorrowedBooks = bookTransactionRepository.findAllBorrowedBooks(pageable, user.getId());
+        List<BorrowedBookResponse> bookResponse = allBorrowedBooks.stream()
+                .map(bookMapper::toBorrowedBookResponse)
+                .toList();
+        return new PageResponse<>(
+                bookResponse,
+                allBorrowedBooks.getNumber(),
+                allBorrowedBooks.getSize(),
+                allBorrowedBooks.getTotalElements(),
+                allBorrowedBooks.getTotalPages(),
+                allBorrowedBooks.isFirst(),
+                allBorrowedBooks.isLast()
         );
     }
 }

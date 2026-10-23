@@ -1,0 +1,19 @@
+package com.example.book.history;
+
+import com.example.book.book.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.awt.print.Pageable;
+import java.util.List;
+
+public interface BookTransactionRepository extends JpaRepository<BookTransaction, Integer> {
+
+    @Query("""
+    select history
+    from BookTransaction history
+    where history.user.id = :userId
+""")
+    Page<BookTransaction> findAllBorrowedBooks(Pageable pageable, Integer userId);
+}

@@ -1,5 +1,6 @@
 package com.example.book.book;
 
+import com.example.book.history.BookTransaction;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +28,18 @@ public class BookMapper {
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
                 .owner(book.getOwner().fullName())
+                .build();
+    }
+
+    public BorrowedBookResponse toBorrowedBookResponse(BookTransaction bookTransaction) {
+        return BorrowedBookResponse.builder()
+                .id(bookTransaction.getBook().getId())
+                .title(bookTransaction.getBook().getTitle())
+                .authorName(bookTransaction.getBook().getAuthorName())
+                .isbn(bookTransaction.getBook().getIsbn())
+                .rate(bookTransaction.getBook().getRate())
+                .returned(bookTransaction.isReturned())
+                .returnApproved(bookTransaction.isReturnApproved())
                 .build();
     }
 }
