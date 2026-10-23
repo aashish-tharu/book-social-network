@@ -180,4 +180,21 @@ public class BookService {
                 .orElseThrow(()->new OperationNotPermittedException("You didn't borrow this book"));
         return bookTransactionRepository.save(bookTransaction).getId();
     }
+
+    public Integer returnApprovedBorrowedBook(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepoistory.findById(bookId)
+                .orElseThrow(()-> new EntityNotFoundException("No book found with the book id: " + bookId));
+        if (book.isArchived() || !book.isShareable()) {
+            throw new OperationNotPermittedException("The requested book cannot be borrowed since it is archived or not shareable");
+        }
+
+        User user = ((User) connectedUser.getPrincipal());
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot borrow your own book");
+        }
+        BookTransaction bookTransaction = bookTransactionRepository.findByBookIdAndOwnerId(bookId, user.getId())
+                .orElseThrow(()->new OperationNotPermittedException("The book is not returned yet"));
+        bookTransaction.setReturnApproved(true);
+        return bookTransactionRepository.save(bookTransaction).getId();
+    }
 }
