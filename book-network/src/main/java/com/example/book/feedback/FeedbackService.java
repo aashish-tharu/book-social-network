@@ -2,13 +2,18 @@ package com.example.book.feedback;
 
 import com.example.book.book.Book;
 import com.example.book.book.BookRepoistory;
+import com.example.book.common.PageResponse;
 import com.example.book.exception.OperationNotPermittedException;
 import com.example.book.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -31,5 +36,23 @@ public class FeedbackService {
         }
         Feedback feeback = feedbackMapper.toFeedback(request);
         return feedbackRepository.save(feeback).getId();
+    }
+
+    public PageResponse<FeedbackResponse> findAllFeedbackByBook(Integer bookId, int page, int size, Authentication connectedUser) {
+        Pageable pageable = PageRequest.of(page, size);
+        User user = ((User) connectedUser.getPrincipal());
+        Page<Feedback> feedbacks = feedbackRepository.findAllByBookId(bookId, pageable);
+        List<FeedbackResponse> feedbackResponse = feedbacks.stream()
+                .map(f->feedbackMapper.toFeedbackResponse(f, user.getId()))
+                .toList();
+        return new PageResponse<>(
+                feedbackResponse,
+                feedbacks.getNumber(),
+                feedbacks.getSize(),
+                feedbacks.getTotalElements(),
+                feedbacks.getTotalPages(),
+                feedbacks.isFirst(),
+                feedbacks.isLast()
+        );
     }
 }
