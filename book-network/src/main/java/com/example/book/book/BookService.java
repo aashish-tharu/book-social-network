@@ -15,12 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-
-import static com.example.book.book.BookSpecification.withOwnerId;
 
 @Service
 @RequiredArgsConstructor
