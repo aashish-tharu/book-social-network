@@ -82,6 +82,7 @@ public class GlobalExceptionHandler {
                 .body(
                         ExceptionResponse.builder()
                                 .error(exp.getMessage())
+                                .validationErrors(errors)
                                 .build()
                 );
     }
