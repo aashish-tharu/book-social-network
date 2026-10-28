@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/books">Book Social Network</a>
+
+    <ul class="navbar-nav me-auto flex-wrap">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/books" routerLinkActive="active">
+          <i class="fas fa-home"></i>&nbsp;Home
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/my-books" routerLinkActive="active">
+          <i class="fas fa-book"></i>&nbsp;My books
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/my-waiting-list" routerLinkActive="active">
+          <i class="fas fa-heart"></i>&nbsp;My waiting list
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/my-returned-books" routerLinkActive="active">
+          <i class="fas fa-undo-alt"></i>&nbsp;My returned books
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/my-borrowed-books" routerLinkActive="active">
+          <i class="fas fa-book-reader"></i>&nbsp;Borrowed books
+        </a>
+      </li>
+    </ul>
+
+    <form class="d-flex gap-2 align-text-center" role="search">
+      <input class="form-control" type="text" placeholder="Find a book" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+      <span>Welcome</span>
+      <span class="text-capitalize fw-bold">aashish</span>
+      <button class="btn btn-link" type="button" (click)="logout()"><i class="fas fa-door-open"></i></button>
+    </form>
+  </div>
+</nav>

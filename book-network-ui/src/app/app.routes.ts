@@ -21,4 +21,8 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'login',
   },
+  {
+    path: 'books',
+    loadChildren: ()=> import('./modules/book/book-module').then(m => m.BookModule)
+  }
 ];
