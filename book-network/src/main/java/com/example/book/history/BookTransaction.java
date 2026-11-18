@@ -3,10 +3,12 @@ package com.example.book.history;
 import com.example.book.book.Book;
 import com.example.book.common.BaseEntity;
 import com.example.book.user.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +31,14 @@ public class BookTransaction extends BaseEntity {
 
     private boolean returned;
     private boolean returnApproved;
+
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean borrowApproved = true;
+
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean borrowRejected = false;
 
 
 }

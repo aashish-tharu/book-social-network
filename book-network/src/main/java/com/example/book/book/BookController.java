@@ -62,6 +62,31 @@ public class BookController {
         return ResponseEntity.ok(service.findAllBorrowedBooks(page, size, connectedUser));
     }
 
+    @GetMapping("/borrow-requests")
+    public ResponseEntity<PageResponse<BorrowRequestResponse>> findAllPendingBorrowRequests(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(service.findAllPendingBorrowRequests(page, size, connectedUser));
+    }
+
+    @PatchMapping("/borrow-requests/{request-id}/approve")
+    public ResponseEntity<Integer> approveBorrowRequest(
+            @PathVariable("request-id") Integer requestId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(service.approveBorrowRequest(requestId, connectedUser));
+    }
+
+    @PatchMapping("/borrow-requests/{request-id}/reject")
+    public ResponseEntity<Integer> rejectBorrowRequest(
+            @PathVariable("request-id") Integer requestId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(service.rejectBorrowRequest(requestId, connectedUser));
+    }
+
     @GetMapping("/returned")
     public ResponseEntity<PageResponse<BorrowedBookResponse>> findAllReturnedBooks(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,

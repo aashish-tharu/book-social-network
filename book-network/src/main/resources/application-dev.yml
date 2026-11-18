@@ -34,10 +34,10 @@ application:
   security:
     jwt:
       secret-Key: fZOVrt/mVCV2x/tyh1CDojxR/YAA5nZjm0fp7DU6gtUmdvmeqLM5I1O7jT7eWua1
-      expiration: 12000
+      expiration: 86400000
   mailing:
     frontend:
-      activation-url: http://localhost:4200/acitvate-account
+      activation-url: http://localhost:4200/activate-account
   file:
     upload:
       photos-output-path: ./uploads

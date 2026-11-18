@@ -12,6 +12,7 @@ public class BookMapper {
                 .id(request.id())
                 .title(request.title())
                 .authorName(request.authorName())
+                .isbn(request.isbn())
                 .synopsis(request.synopsis())
                 .archived(false)
                 .shareable(request.shareable())
@@ -42,6 +43,18 @@ public class BookMapper {
                 .rate(bookTransaction.getBook().getRate())
                 .returned(bookTransaction.isReturned())
                 .returnApproved(bookTransaction.isReturnApproved())
+                .build();
+    }
+
+    public BorrowRequestResponse toBorrowRequestResponse(BookTransaction bookTransaction) {
+        return BorrowRequestResponse.builder()
+                .id(bookTransaction.getId())
+                .bookId(bookTransaction.getBook().getId())
+                .title(bookTransaction.getBook().getTitle())
+                .authorName(bookTransaction.getBook().getAuthorName())
+                .isbn(bookTransaction.getBook().getIsbn())
+                .borrowerName(bookTransaction.getUser().fullName())
+                .requestedAt(bookTransaction.getCreatedDate())
                 .build();
     }
 }
