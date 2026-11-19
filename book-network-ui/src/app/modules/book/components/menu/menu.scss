@@ -1,12 +1,128 @@
-li > a {
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgb(255 255 255 / 94%);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+}
+
+.nav-inner {
+  width: min(100% - 2.5rem, 1240px);
+  min-height: 68px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--text-primary);
+  font-weight: 750;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand-mark {
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.75rem;
+  color: #fff;
+  background: var(--brand);
+}
+
+.brand-light {
+  color: var(--brand);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  list-style: none;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  color: var(--text-secondary);
+  border-radius: 0.6rem;
+  text-decoration: none;
+  font-size: 0.92rem;
+
+  &:hover,
+  &.active {
+    color: var(--brand);
+    background: var(--brand-soft);
+  }
+}
+
+.logout-button {
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  color: var(--text-secondary);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
   &:hover {
-    background-color: #d6e5f1;
-    border-radius: 5px;
-    text-decoration: underline;
+    border-color: var(--border);
+    color: var(--danger);
+  }
+}
+
+@media (max-width: 760px) {
+  .nav-inner {
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    padding-top: 0.65rem;
+    padding-bottom: 0.55rem;
   }
 
-  &.active {
-    color: #24a7e9;
-    border-radius: 5px;
+  .brand-name {
+    font-size: 0.92rem;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0.6rem;
+    white-space: nowrap;
+  }
+
+  .logout-button {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 460px) {
+  .nav-inner {
+    width: calc(100% - 1.5rem);
+  }
+
+  .nav-link {
+    gap: 0.35rem;
+    font-size: 0.84rem;
   }
 }

@@ -1,0 +1,81 @@
+<article class="book-card">
+  <div class="cover-wrapper">
+    <img
+      class="book-cover"
+      [src]="bookCover"
+      [alt]="(book.title || 'Book') + ' cover'"
+      loading="lazy"
+    >
+    @if (book.archived) {
+      <span class="status-badge archived">Archived</span>
+    } @else if (!book.shareable) {
+      <span class="status-badge unavailable">Not available</span>
+    } @else {
+      <span class="status-badge available">Available</span>
+    }
+  </div>
+
+  <div class="card-body">
+    <h2 class="card-title" [title]="book.title">{{ book.title || 'Untitled book' }}</h2>
+    <p class="book-author">
+      <i class="fas fa-user-pen" aria-hidden="true"></i>
+      <span>{{ book.authorName || 'Unknown author' }}</span>
+    </p>
+
+    <dl class="book-meta">
+      <div>
+        <dt>ISBN</dt>
+        <dd>{{ book.isbn || 'Not listed' }}</dd>
+      </div>
+      <div>
+        <dt>Shared by</dt>
+        <dd>{{ book.owner || 'Community member' }}</dd>
+      </div>
+    </dl>
+
+    <div class="rating" [attr.aria-label]="(book.rate || 0) + ' out of 5 stars'">
+      <span class="rating-stars" aria-hidden="true">
+        @for (star of filledStars; track $index) {
+          <i class="fas fa-star"></i>
+        }
+        @for (star of emptyStars; track $index) {
+          <i class="far fa-star"></i>
+        }
+      </span>
+      <span>{{ (book.rate || 0).toFixed(1) }}</span>
+    </div>
+
+    <p class="synopsis">{{ book.synopsis || 'No description available yet.' }}</p>
+  </div>
+
+  <div class="card-actions">
+    @if (manage) {
+      <button type="button" class="card-button" (click)="onDetails()">
+        <i class="fas fa-circle-info" aria-hidden="true"></i>Details
+      </button>
+      <button type="button" class="card-button" (click)="onEdit()">
+        <i class="fas fa-pen" aria-hidden="true"></i>Edit
+      </button>
+      <button type="button" class="card-button" (click)="onShare()">
+        <i class="fas fa-share-nodes" aria-hidden="true"></i>
+        {{ book.shareable ? 'Unshare' : 'Share' }}
+      </button>
+      <button type="button" class="card-button danger" (click)="onArchive()">
+        <i class="fas fa-box-archive" aria-hidden="true"></i>
+        {{ book.archived ? 'Restore' : 'Archive' }}
+      </button>
+    } @else {
+      <button type="button" class="card-button" (click)="onDetails()">
+        View details
+      </button>
+      <button
+        type="button"
+        class="card-button primary"
+        [disabled]="book.archived || !book.shareable"
+        (click)="onBorrow()"
+      >
+        <i class="fas fa-book-open" aria-hidden="true"></i>Request to borrow
+      </button>
+    }
+  </div>
+</article>

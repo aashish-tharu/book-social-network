@@ -1,0 +1,50 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Good books are meant to travel</p>
+    <h1>My loans</h1>
+    <p>Books you have borrowed from the community.</p>
+  </div>
+</section>
+
+@if (notice) {
+  <div class="notice notice-success" role="status">{{ notice }}</div>
+}
+@if (errorMessage) {
+  <div class="notice notice-error" role="alert">{{ errorMessage }}</div>
+}
+
+@if (loading) {
+  <p class="empty-state">Checking your loans…</p>
+} @else if ((books.content?.length ?? 0) === 0) {
+  <div class="empty-state">
+    <i class="fas fa-book-reader" aria-hidden="true"></i>
+    <h2>No borrowed books yet</h2>
+    <p>Approved loans appear here. Requests waiting for approval are not active loans yet.</p>
+  </div>
+} @else {
+  <div class="loan-list">
+    @for (book of books.content; track book.id) {
+      <article class="loan-card">
+        <div class="book-icon"><i class="fas fa-book-open" aria-hidden="true"></i></div>
+        <div class="loan-info">
+          <h2>{{ book.title || 'Untitled book' }}</h2>
+          <p>{{ book.authorName || 'Unknown author' }} <span>·</span> ISBN {{ book.isbn || '—' }}</p>
+        </div>
+        <div class="loan-actions">
+          @if (book.returned) {
+            <span class="loan-status">Return requested</span>
+          } @else {
+            <button type="button" class="secondary-button" [disabled]="returningBookId === book.id" (click)="returnBook(book)">
+              @if (returningBookId === book.id) { Sending… } @else { Mark returned }
+            </button>
+          }
+        </div>
+      </article>
+    }
+  </div>
+  <app-pagination
+    [page]="books.number ?? page"
+    [totalPages]="books.totalPages ?? 0"
+    (pageChange)="changePage($event)"
+  ></app-pagination>
+}

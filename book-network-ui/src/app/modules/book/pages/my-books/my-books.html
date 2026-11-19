@@ -1,0 +1,46 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Your corner of the library</p>
+    <h1>My shelf</h1>
+    <p class="heading-copy">Keep track of the books you own and choose what to share.</p>
+  </div>
+  <button class="primary-button" type="button" (click)="createBook()">
+    <i class="fas fa-plus" aria-hidden="true"></i> Add a book
+  </button>
+</section>
+
+@if (notice) {
+  <div class="notice notice-success" role="status">{{ notice }}</div>
+}
+@if (errorMessage) {
+  <div class="notice notice-error" role="alert">{{ errorMessage }}</div>
+}
+
+@if (loading) {
+  <p class="empty-state">Loading your shelf…</p>
+} @else if ((books.content?.length ?? 0) === 0) {
+  <div class="empty-state">
+    <i class="fas fa-book" aria-hidden="true"></i>
+    <h2>Your shelf is waiting</h2>
+    <p>Add your first book and share it with someone nearby.</p>
+    <button class="primary-button" type="button" (click)="createBook()">Add a book</button>
+  </div>
+} @else {
+  <div class="book-grid">
+    @for (book of books.content; track book.id) {
+      <app-book-card
+        [book]="book"
+        [manage]="true"
+        (details)="viewDetails($event)"
+        (edit)="editBook($event)"
+        (share)="toggleShare($event)"
+        (archive)="toggleArchive($event)"
+      ></app-book-card>
+    }
+  </div>
+  <app-pagination
+    [page]="books.number ?? page"
+    [totalPages]="books.totalPages ?? 0"
+    (pageChange)="changePage($event)"
+  ></app-pagination>
+}

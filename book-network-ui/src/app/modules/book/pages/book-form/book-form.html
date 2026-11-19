@@ -1,0 +1,54 @@
+<section class="form-wrap">
+  <a class="back-link" routerLink="/books/my-books">
+    <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to my shelf
+  </a>
+  <header class="form-heading">
+    <p class="eyebrow">{{ isEditing ? 'A quick shelf update' : 'Add to your shelf' }}</p>
+    <h1>{{ isEditing ? 'Edit book details' : 'Share a book' }}</h1>
+    <p>Just the useful details — no need to make it fancy.</p>
+  </header>
+
+  @if (errorMessage) {
+    <div class="notice notice-error" role="alert">{{ errorMessage }}</div>
+  }
+
+  <form class="book-form" #bookForm="ngForm" (ngSubmit)="save()">
+    <div class="form-grid">
+      <label>
+        <span>Book title</span>
+        <input name="title" [(ngModel)]="book.title" required maxlength="160" placeholder="e.g. The Midnight Library">
+      </label>
+      <label>
+        <span>Author</span>
+        <input name="author" [(ngModel)]="book.authorName" required maxlength="120" placeholder="Who wrote it?">
+      </label>
+      <label>
+        <span>ISBN</span>
+        <input name="isbn" [(ngModel)]="book.isbn" required maxlength="30" placeholder="ISBN number">
+      </label>
+      <label class="cover-field">
+        <span>Cover image <small>(optional)</small></span>
+        <input type="file" accept="image/*" (change)="selectCover($event)">
+      </label>
+      <label class="wide-field">
+        <span>Short description</span>
+        <textarea name="synopsis" [(ngModel)]="book.synopsis" required maxlength="2000" rows="5" placeholder="What should someone know before borrowing it?"></textarea>
+      </label>
+    </div>
+
+    <label class="share-choice">
+      <input type="checkbox" name="shareable" [(ngModel)]="book.shareable">
+      <span>
+        <strong>Make this book available to borrow</strong>
+        <small>You can change this any time from your shelf.</small>
+      </span>
+    </label>
+
+    <div class="form-actions">
+      <button class="secondary-button" type="button" (click)="cancel()">Cancel</button>
+      <button class="primary-button" type="submit" [disabled]="bookForm.invalid || isSaving">
+        @if (isSaving) { Saving… } @else { {{ isEditing ? 'Save changes' : 'Add book' }} }
+      </button>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,35 @@
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.6rem 0 0.25rem;
+}
+
+.pager-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  color: var(--brand);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+
+  &:hover:not(:disabled) {
+    background: var(--brand-soft);
+    border-color: #b7d5ce;
+  }
+
+  &:disabled {
+    color: #a4aaa5;
+    cursor: not-allowed;
+  }
+}
+
+.pager-count {
+  min-width: 6rem;
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: 0.9rem;
+}

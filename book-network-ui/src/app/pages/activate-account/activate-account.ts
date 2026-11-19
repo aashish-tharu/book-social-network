@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services';
@@ -20,7 +20,8 @@ export class ActivateAccount {
 
   constructor(
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private readonly changeDetector: ChangeDetectorRef,
   ) {}
 
   protected onCodeCompleted(token: string): void {
@@ -43,6 +44,7 @@ export class ActivateAccount {
         this.message = 'Your account has been successfully activated. You can now log in.';
         this.isOkay = true;
         this.submitted = true;
+        this.changeDetector.markForCheck();
       },
       error: (err) => {
         this.message = err?.error?.businessErrorDescription
@@ -50,6 +52,7 @@ export class ActivateAccount {
           || 'The activation code is invalid or has expired.';
         this.submitted = true;
         this.isOkay = false;
+        this.changeDetector.markForCheck();
       }
     });
   }

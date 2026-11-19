@@ -1,5 +1,46 @@
-<h3>Book list</h3>
-<hr>
-<div class="d-flex justify-content-start gap-2 flex-wrap">
-    <span *ngFor="let book of bookResponse.content">{{book.title}}</span>
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">A little more reading, a little less scrolling</p>
+    <h1>Find your next good read</h1>
+    <p class="heading-copy">Books shared by people in the community.</p>
+  </div>
+</section>
+
+@if (notice) {
+  <div class="notice notice-success" role="status">{{ notice }}</div>
+}
+@if (errorMessage) {
+  <div class="notice notice-error" role="alert">{{ errorMessage }}</div>
+}
+
+<div class="section-topline">
+  <h2>Recently added</h2>
+  @if (bookResponse.totalElement != null) {
+    <span>{{ bookResponse.totalElement }} books</span>
+  }
 </div>
+
+@if (loading) {
+  <p class="empty-state">Loading the shelves…</p>
+} @else if ((bookResponse.content?.length ?? 0) === 0) {
+  <div class="empty-state">
+    <i class="fas fa-book-open" aria-hidden="true"></i>
+    <h3>No books to browse just yet</h3>
+    <p>Check back soon — someone may share a new favorite.</p>
+  </div>
+} @else {
+  <div class="book-grid">
+    @for (book of bookResponse.content; track book.id) {
+      <app-book-card
+        [book]="book"
+        (details)="onBookDetails($event)"
+        (borrow)="onBorrowBook($event)"
+      ></app-book-card>
+    }
+  </div>
+  <app-pagination
+    [page]="bookResponse.number ?? page"
+    [totalPages]="bookResponse.totalPages ?? 0"
+    (pageChange)="changePage($event)"
+  ></app-pagination>
+}

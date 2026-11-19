@@ -1,0 +1,222 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.book-card {
+  display: flex;
+  height: 100%;
+  min-height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgb(16 24 40 / 10%);
+  }
+}
+
+.cover-wrapper {
+  position: relative;
+  display: grid;
+  height: 230px;
+  place-items: center;
+  overflow: hidden;
+  background: #edf1f0;
+}
+
+.book-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.status-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 92%);
+  font-size: 0.74rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgb(16 24 40 / 10%);
+
+  &.available {
+    color: #16704f;
+  }
+
+  &.archived,
+  &.unavailable {
+    color: var(--text-secondary);
+  }
+}
+
+.card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.1rem 1.15rem 0.8rem;
+}
+
+.card-title {
+  display: -webkit-box;
+  margin: 0 0 0.55rem;
+  overflow: hidden;
+  color: var(--text-primary);
+  font-size: 1.08rem;
+  font-weight: 720;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.book-author {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+
+  i {
+    color: #84918e;
+  }
+}
+
+.book-meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  margin: 0.9rem 0 0;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+
+  dt {
+    margin-bottom: 0.2rem;
+    color: var(--text-secondary);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    overflow: hidden;
+    color: #344054;
+    font-size: 0.82rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.rating-stars {
+  display: inline-flex;
+  gap: 0.1rem;
+  color: #c9872f;
+}
+
+.synopsis {
+  display: -webkit-box;
+  margin: 0.7rem 0 0;
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.85rem 1.15rem 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.card-button {
+  display: inline-flex;
+  min-height: 2.45rem;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.7rem;
+  color: #344054;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+
+  &:hover:not(:disabled) {
+    color: var(--brand);
+    background: var(--brand-soft);
+    border-color: #b7d5ce;
+  }
+
+  &:disabled {
+    color: #98a2b3;
+    background: #f2f4f7;
+    cursor: not-allowed;
+  }
+
+  &.primary {
+    color: #fff;
+    background: var(--brand);
+    border-color: var(--brand);
+
+    &:hover:not(:disabled) {
+      color: #fff;
+      background: var(--brand-hover);
+      border-color: var(--brand-hover);
+    }
+
+    &:disabled {
+      color: #667085;
+      background: #eaecf0;
+      border-color: #eaecf0;
+    }
+  }
+
+  &.danger {
+    color: var(--danger);
+  }
+}
+
+@media (max-width: 520px) {
+  .cover-wrapper {
+    height: 250px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-card {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

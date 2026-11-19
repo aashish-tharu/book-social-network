@@ -1,26 +1,30 @@
-<div class="container-fluid card login-container">
-  <h3 class="text-center">Login</h3>
-  <hr>
-  <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
-    <p *ngFor="let msg of errorMsg">{{ msg }}</p>
-  </div>
-  <div class="mb-3">
-   <label for="login" class="form-label">Email address</label>
-    <input [(ngModel)]="authRequest.email" name = "email" type = "email" class="form-control" id = "login" placeholder="name@example.com">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Password</label>
-    <input [(ngModel)]="authRequest.password" type="password" class="form-control" id="password" placeholder="Password">
-  </div>
-  <div class="d-flex justify-content-between mb-3">
-    <button (click)="login()" type="button" class="btn btn-primary">
-      <em class="fas fa-sign-in-alt">&nbsp;Sign in</em>
-    </button>
-    <div>
-      Don't have an account?&nbsp;
-      <button (click)="register()" type="button" class="btn btn-link">
-        Register
-      </button>
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="login-title">
+    <div class="auth-brand" aria-label="Social Book Network">
+      <span class="brand-mark"><i class="fas fa-book-open" aria-hidden="true"></i></span>
+      <span>Social Book Network</span>
     </div>
-  </div>
-</div>
+    <p class="auth-eyebrow">Welcome back</p>
+    <h1 id="login-title">Sign in to your account</h1>
+    <p class="auth-copy">Discover books and share your shelf with the community.</p>
+
+    <div class="auth-errors" role="alert" *ngIf="errorMsg.length">
+      <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+    </div>
+    <div class="auth-field">
+      <label for="login">Email address</label>
+      <input [(ngModel)]="authRequest.email" name="email" type="email" id="login" autocomplete="email" placeholder="name@example.com">
+    </div>
+    <div class="auth-field">
+      <label for="password">Password</label>
+      <input [(ngModel)]="authRequest.password" name="password" type="password" id="password" autocomplete="current-password" placeholder="Your password">
+    </div>
+    <button class="auth-submit" (click)="login()" type="button" [disabled]="isLoggingIn">
+      {{ isLoggingIn ? 'Signing in…' : 'Sign in' }}
+    </button>
+    <p class="auth-footer">
+      New to Social Book Network?
+      <button (click)="register()" type="button">Create an account</button>
+    </p>
+  </section>
+</main>

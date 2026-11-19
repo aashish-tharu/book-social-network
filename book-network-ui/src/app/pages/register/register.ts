@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import {AuthenticationService, RegistrationRequest} from '../../services';
 import {FormsModule} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
@@ -18,7 +18,8 @@ export class Register {
 
   constructor(
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private readonly changeDetector: ChangeDetectorRef,
   ) {
   }
 
@@ -42,6 +43,7 @@ export class Register {
         } else {
           this.errorMsg = ['Registration failed. Please try again.'];
         }
+        this.changeDetector.markForCheck();
       }
     });
   }

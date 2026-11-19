@@ -27,4 +27,28 @@ export class TokenService {
       localStorage.removeItem(this.TOKEN_KEY);
     }
   }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const payload = token.split('.')[1];
+      if (!payload) {
+        return true;
+      }
+
+      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+      const decoded = JSON.parse(atob(base64));
+      if (typeof decoded.exp !== 'number') {
+        return true;
+      }
+
+      return decoded.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
+  }
 }

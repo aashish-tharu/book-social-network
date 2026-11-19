@@ -1,6 +1,7 @@
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { httpTokenInterceptor } from './http-token-interceptor';
 import { ApiConfiguration } from '../api-configuration';
@@ -10,14 +11,23 @@ describe('httpTokenInterceptor', () => {
   let http: HttpClient;
   let httpTestingController: HttpTestingController;
   let apiRootUrl: string;
-  let tokenService: { getToken: ReturnType<typeof vi.fn> };
+  let tokenService: {
+    getToken: ReturnType<typeof vi.fn>;
+    isAuthenticated: ReturnType<typeof vi.fn>;
+    removeToken: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(() => {
-    tokenService = { getToken: vi.fn().mockReturnValue('jwt-token') };
+    tokenService = {
+      getToken: vi.fn().mockReturnValue('jwt-token'),
+      isAuthenticated: vi.fn().mockReturnValue(true),
+      removeToken: vi.fn(),
+    };
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(withInterceptors([httpTokenInterceptor])),
         provideHttpClientTesting(),
+        provideRouter([]),
         { provide: TokenService, useValue: tokenService },
       ],
     });

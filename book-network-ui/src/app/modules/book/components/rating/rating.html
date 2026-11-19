@@ -1,0 +1,22 @@
+<div class="rating-control" role="group" [attr.aria-label]="label">
+  @for (star of [1, 2, 3, 4, 5]; track star) {
+    <button
+      type="button"
+      class="star-button"
+      [class.selected]="star <= displayValue"
+      [disabled]="readonly"
+      [attr.aria-label]="star + ' out of 5 stars'"
+      [attr.aria-pressed]="star === value"
+      (mouseenter)="hovered = star"
+      (mouseleave)="hovered = 0"
+      (focus)="hovered = star"
+      (blur)="hovered = 0"
+      (click)="choose(star)"
+    >
+      <i class="fas fa-star" aria-hidden="true"></i>
+    </button>
+  }
+  @if (readonly) {
+    <span class="rating-value">{{ value | number: '1.1-1' }}</span>
+  }
+</div>

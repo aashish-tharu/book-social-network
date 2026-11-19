@@ -1,0 +1,168 @@
+.page-heading {
+  margin-bottom: 1.6rem;
+
+  h1 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 750;
+    letter-spacing: -0.045em;
+  }
+
+  p:last-child {
+    margin: 0.5rem 0 0;
+    color: var(--text-secondary);
+  }
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  color: var(--brand);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.loan-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.loan-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  box-shadow: var(--shadow-card);
+}
+
+.book-icon {
+  width: 3rem;
+  height: 3.4rem;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--brand);
+  background: var(--brand-soft);
+  border-radius: 0.45rem;
+}
+
+.loan-info {
+  flex: 1;
+  min-width: 0;
+
+  h2 {
+    margin: 0;
+    overflow: hidden;
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  p {
+    margin: 0.3rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+  }
+}
+
+.loan-info span {
+  padding: 0 0.2rem;
+}
+
+.loan-actions {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 9.5rem;
+}
+
+.secondary-button {
+  padding: 0.6rem 0.8rem;
+  color: var(--brand);
+  background: #fff;
+  border: 1px solid #b7d5ce;
+  border-radius: 0.65rem;
+  font-weight: 650;
+
+  &:hover:not(:disabled) {
+    background: var(--brand-soft);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.loan-status {
+  padding: 0.45rem 0.65rem;
+  color: #8a5a18;
+  background: #fff4e5;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.notice,
+.empty-state {
+  padding: 1rem;
+  border-radius: 0.65rem;
+}
+
+.notice-success {
+  margin-bottom: 1rem;
+  color: #176044;
+  background: #e8f5ee;
+}
+
+.notice-error {
+  margin-bottom: 1rem;
+  color: #912018;
+  background: #fef3f2;
+}
+
+.empty-state {
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  background: var(--surface);
+  border: 1px dashed #cfd7d5;
+  border-radius: 0.9rem;
+
+  i {
+    color: var(--brand);
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    margin: 0.75rem 0 0.3rem;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .loan-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .loan-info {
+    flex: 1 1 calc(100% - 4rem);
+  }
+
+  .loan-actions {
+    width: 100%;
+    min-width: 0;
+    padding-left: 4rem;
+    justify-content: flex-start;
+  }
+}

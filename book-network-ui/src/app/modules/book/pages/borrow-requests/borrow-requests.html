@@ -1,0 +1,62 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">A good book finds its next reader</p>
+    <h1>Borrow requests</h1>
+    <p>Review requests for books on your shelf.</p>
+  </div>
+</section>
+
+@if (notice) {
+  <div class="notice notice-success" role="status">{{ notice }}</div>
+}
+@if (errorMessage) {
+  <div class="notice notice-error" role="alert">{{ errorMessage }}</div>
+}
+
+@if (loading) {
+  <p class="empty-state">Checking for borrow requests…</p>
+} @else if ((requests.content?.length ?? 0) === 0) {
+  <div class="empty-state">
+    <i class="fas fa-book-reader" aria-hidden="true"></i>
+    <h2>No requests to review</h2>
+    <p>New requests for your books will appear here.</p>
+  </div>
+} @else {
+  <div class="request-list">
+    @for (request of requests.content; track request.id) {
+      <article class="request-card">
+        <div class="book-icon"><i class="fas fa-book-open" aria-hidden="true"></i></div>
+        <div class="request-info">
+          <h2>{{ request.title || 'Untitled book' }}</h2>
+          <p>{{ request.authorName || 'Unknown author' }} <span>·</span> ISBN {{ request.isbn || '—' }}</p>
+          <p class="requester">Requested by {{ request.borrowerName || 'A community member' }}
+            @if (request.requestedAt) { <span>·</span> {{ request.requestedAt | date: 'mediumDate' }} }
+          </p>
+        </div>
+        <div class="request-actions">
+          <button
+            type="button"
+            class="primary-button"
+            [disabled]="processingRequestId === request.id"
+            (click)="approve(request)"
+          >
+            @if (processingRequestId === request.id) { Processing… } @else { Approve }
+          </button>
+          <button
+            type="button"
+            class="secondary-button"
+            [disabled]="processingRequestId === request.id"
+            (click)="reject(request)"
+          >
+            Decline
+          </button>
+        </div>
+      </article>
+    }
+  </div>
+  <app-pagination
+    [page]="requests.number ?? page"
+    [totalPages]="requests.totalPages ?? 0"
+    (pageChange)="changePage($event)"
+  ></app-pagination>
+}

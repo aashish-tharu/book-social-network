@@ -1,34 +1,36 @@
-<div class="container-fluid card login-container">
-  <h3 class="text-center">Create an account</h3>
-  <hr>
-  <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
-    <p *ngFor="let msg of errorMsg">{{ msg }}</p>
-  </div>
-  <div class="mb-3">
-    <label for="firstname" class="form-label">FirstName</label>
-    <input [(ngModel)]="registerRequest.firstname" name = "firstname" type = "text" class="form-control" id = "firstname" placeholder="First Name">
-  </div>
-  <div class="mb-3">
-    <label for="login" class="form-label">LastName</label>
-    <input [(ngModel)]="registerRequest.lastname" name = "lastname" type = "text" class="form-control" id = "lastname" placeholder="Last Name">
-  </div>
-  <div class="mb-3">
-    <label for="email" class="form-label">Email address</label>
-    <input [(ngModel)]="registerRequest.email" name = "email" type="email" class="form-control" id = "email" placeholder="email@example.com">
-  </div>
-  <div class="mb-3">
-    <label class="form-label">Password</label>
-    <input [(ngModel)]="registerRequest.password" type="password" class="form-control" id="password" placeholder="Password">
-  </div>
-  <div class="d-flex justify-content-between mb-3">
-    <button (click)="register()" type="button" class="btn btn-primary">
-      <em class="fas fa-sign-in-alt">&nbsp;Register</em>
-    </button>
-    <div>
-      Already have an account?&nbsp;
-      <button (click)="login()" type="button" class="btn btn-link">
-        Login
-      </button>
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="register-title">
+    <div class="auth-brand" aria-label="Social Book Network">
+      <span class="brand-mark"><i class="fas fa-book-open" aria-hidden="true"></i></span>
+      <span>Social Book Network</span>
     </div>
-  </div>
-</div>
+    <p class="auth-eyebrow">Join the community</p>
+    <h1 id="register-title">Create your account</h1>
+    <p class="auth-copy">Build your shelf and find your next favorite read.</p>
+
+    <div class="auth-errors" role="alert" *ngIf="errorMsg.length">
+      <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+    </div>
+    <div class="auth-field">
+      <label for="firstname">First name</label>
+      <input [(ngModel)]="registerRequest.firstname" name="firstname" type="text" id="firstname" autocomplete="given-name" placeholder="First name">
+    </div>
+    <div class="auth-field">
+      <label for="lastname">Last name</label>
+      <input [(ngModel)]="registerRequest.lastname" name="lastname" type="text" id="lastname" autocomplete="family-name" placeholder="Last name">
+    </div>
+    <div class="auth-field">
+      <label for="email">Email address</label>
+      <input [(ngModel)]="registerRequest.email" name="email" type="email" id="email" autocomplete="email" placeholder="name@example.com">
+    </div>
+    <div class="auth-field">
+      <label for="password">Password</label>
+      <input [(ngModel)]="registerRequest.password" name="password" type="password" id="password" autocomplete="new-password" placeholder="Create a password">
+    </div>
+    <button class="auth-submit" (click)="register()" type="button">Create account</button>
+    <p class="auth-footer">
+      Already have an account?
+      <button (click)="login()" type="button">Sign in</button>
+    </p>
+  </section>
+</main>

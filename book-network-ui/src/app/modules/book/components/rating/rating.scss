@@ -1,0 +1,35 @@
+.rating-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18rem;
+}
+
+.star-button {
+  padding: 0.15rem;
+  border: 0;
+  color: #d3cec2;
+  background: transparent;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+
+  &.selected {
+    color: #c58a43;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #6c9079;
+    outline-offset: 2px;
+    border-radius: 0.2rem;
+  }
+}
+
+.rating-value {
+  margin-left: 0.35rem;
+  color: #59645d;
+  font-size: 0.9rem;
+}

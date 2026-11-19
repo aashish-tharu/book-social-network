@@ -1,28 +1,39 @@
-<div class="container" *ngIf="submitted else codeForm" >
-  <div class="activate-message" *ngIf="isOkay else activationError">
-    <h2>Activation successful!</h2>
-    <p>Your account has been successfully activated.</p>
-    <button class="btn btn-primary" (click)="redirectToLogin()">Go to Login</button>
-  </div>
-  <ng-template #activationError>
-    <div class="activation-error">
-      <h2>Activation failed!</h2>
-      <p>{{message}}</p>
-      <button class="btn btn-primary" (click)="retryActivation()">Try again</button>
+<main class="auth-page">
+  <section class="auth-card activation-card" aria-live="polite">
+    <div class="auth-brand" aria-label="Social Book Network">
+      <span class="brand-mark"><i class="fas fa-book-open" aria-hidden="true"></i></span>
+      <span>Social Book Network</span>
     </div>
-  </ng-template>
-</div>
-
-<ng-template #codeForm>
-  <div class="container">
-    <div class="text-center" style="width: 400px;">
-      <h2>Type your activation code</h2>
-      <code-input [isCodeHidden] = "false"
-                  [codeLength]="6"
-                  [code]="'number'"
-                  (codeCompleted)="onCodeCompleted($event)"
-      >
-      </code-input>
-    </div>
-  </div>
-</ng-template>
+    <ng-container *ngIf="submitted else codeForm">
+      <div class="activation-result" *ngIf="isOkay else activationError">
+        <span class="activation-icon success"><i class="fas fa-check" aria-hidden="true"></i></span>
+        <p class="auth-eyebrow">You’re all set</p>
+        <h1>Account activated</h1>
+        <p class="auth-copy">Your account is ready. Sign in to explore the community library.</p>
+        <button class="auth-submit" (click)="redirectToLogin()">Go to sign in</button>
+      </div>
+      <ng-template #activationError>
+        <div class="activation-result">
+          <span class="activation-icon error"><i class="fas fa-exclamation" aria-hidden="true"></i></span>
+          <p class="auth-eyebrow">Unable to activate</p>
+          <h1>Check your code</h1>
+          <p class="auth-copy">{{message}}</p>
+          <button class="auth-submit" (click)="retryActivation()">Try again</button>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-template #codeForm>
+      <p class="auth-eyebrow">One last step</p>
+      <h1>Activate your account</h1>
+      <p class="auth-copy">Enter the 6-digit code sent to your email address.</p>
+      <div class="activation-code">
+        <code-input
+          [isCodeHidden]="false"
+          [codeLength]="6"
+          [code]="'number'"
+          (codeCompleted)="onCodeCompleted($event)"
+        ></code-input>
+      </div>
+    </ng-template>
+  </section>
+</main>

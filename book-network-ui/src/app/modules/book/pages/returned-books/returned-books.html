@@ -1,0 +1,49 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">A hand-off, not a hassle</p>
+    <h1>Returns to review</h1>
+    <p>Confirm when someone has brought one of your books back.</p>
+  </div>
+</section>
+
+@if (notice) {
+  <div class="notice notice-success" role="status">{{ notice }}</div>
+}
+@if (errorMessage) {
+  <div class="notice notice-error" role="alert">{{ errorMessage }}</div>
+}
+
+@if (loading) {
+  <p class="empty-state">Checking for return requests…</p>
+} @else if ((books.content?.length ?? 0) === 0) {
+  <div class="empty-state">
+    <i class="fas fa-box-open" aria-hidden="true"></i>
+    <h2>All caught up</h2>
+    <p>New return requests will be listed here.</p>
+  </div>
+} @else {
+  <div class="loan-list">
+    @for (book of books.content; track book.id) {
+      <article class="loan-card">
+        <div class="book-icon"><i class="fas fa-book" aria-hidden="true"></i></div>
+        <div class="loan-info">
+          <h2>{{ book.title || 'Untitled book' }}</h2>
+          <p>{{ book.authorName || 'Unknown author' }} <span>·</span> ISBN {{ book.isbn || '—' }}</p>
+        </div>
+        <button
+          type="button"
+          class="primary-button"
+          [disabled]="approvingBookId === book.id"
+          (click)="approveReturn(book)"
+        >
+          @if (approvingBookId === book.id) { Confirming… } @else { Confirm return }
+        </button>
+      </article>
+    }
+  </div>
+  <app-pagination
+    [page]="books.number ?? page"
+    [totalPages]="books.totalPages ?? 0"
+    (pageChange)="changePage($event)"
+  ></app-pagination>
+}
