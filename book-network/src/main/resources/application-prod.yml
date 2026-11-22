@@ -22,7 +22,7 @@ spring:
 application:
   security:
     jwt:
-      secret-key: ${JWT_SECRET}
+      secret-Key: ${JWT_SECRET}
       expiration: 86400000
   mailing:
     frontend:
