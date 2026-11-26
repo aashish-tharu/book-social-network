@@ -7,17 +7,6 @@ spring:
       ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-  mail:
-    host: ${MAIL_HOST}
-    port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 
 application:
   security:
@@ -25,6 +14,9 @@ application:
       secret-Key: ${JWT_SECRET}
       expiration: 86400000
   mailing:
+    brevo:
+      api-key: ${BREVO_API_KEY:dummy_key}
+      sender-email: ${BREVO_SENDER_EMAIL:dummy@example.com}
     frontend:
       activation-url: ${FRONTEND_ACTIVATION_URL}
   file:

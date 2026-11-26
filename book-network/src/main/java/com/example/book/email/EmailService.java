@@ -1,29 +1,30 @@
 package com.example.book.email;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
 
-    private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
 
-    @Value("${spring.mail.username}")
+    @Value("${application.mailing.brevo.api-key}")
+    private String brevoApiKey;
+
+    @Value("${application.mailing.brevo.sender-email}")
     private String senderEmail;
 
     @Async
@@ -34,20 +35,9 @@ public class EmailService {
             String confirmationUrl,
             String activationCode,
             String subject
-    ) throws MessagingException {
-        String templateName;
-        if (emailTemplate == null) {
-            templateName = "confirm-email";
-        } else {
-            templateName = emailTemplate.name();
-        }
+    ) {
+        String templateName = (emailTemplate == null) ? "confirm-email" : emailTemplate.name();
 
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(
-                mimeMessage,
-                MimeMessageHelper.MULTIPART_MODE_MIXED,
-                UTF_8.name()
-        );
         Map<String, Object> properties = new HashMap<>();
         properties.put("username", username);
         properties.put("confirmationUrl", confirmationUrl);
@@ -55,15 +45,27 @@ public class EmailService {
 
         Context context = new Context();
         context.setVariables(properties);
+        String htmlContent = templateEngine.process(templateName, context);
 
-        helper.setFrom(senderEmail);
-        helper.setTo(to);
-        helper.setSubject(subject);
+        Map<String, Object> requestBody = Map.of(
+                "sender", Map.of("name", "Book Social Network", "email", senderEmail),
+                "to", List.of(Map.of("email", to, "name", username)),
+                "subject", subject,
+                "htmlContent", htmlContent
+        );
 
-        String template = templateEngine.process(templateName, context);
-
-        helper.setText(template, true);
-
-        mailSender.send(mimeMessage);
+        try {
+            RestClient.create()
+                    .post()
+                    .uri("https://api.brevo.com/v3/smtp/email")
+                    .header("api-key", brevoApiKey)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(requestBody)
+                    .retrieve()
+                    .toBodilessEntity();
+            log.info("Activation email sent successfully to {}", to);
+        } catch (Exception e) {
+            log.error("Failed to send activation email to {}: {}", to, e.getMessage());
+        }
     }
 }
